@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>साज साडी बाजार</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#5C1A33" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="साज साडी" />
+<meta property="og:title" content="साज साडी बाजार" />
+<meta property="og:description" content="पारंपरिक पैठणी, सिल्क व इतर साड्यांचा हक्काचा संग्रह — WhatsApp वर थेट ऑर्डर करा!" />
+<meta property="og:image" content="icon-512.png" />
+<meta property="og:type" content="website" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<link rel="icon" href="icon-192.png" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap');
+  :root {
+    --wine: #5C1A33; --wine-dark: #3D0F21; --peacock: #0B6E4F; --peacock-dark: #084F38;
+    --gold: #C9973B; --gold-light: #E9CD8E; --ivory: #FBF1E4; --ink: #2B1620; --danger: #A3372F;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:'Noto Sans Devanagari', sans-serif; background:var(--ivory); color:var(--ink); }
+  h1,h2,h3 { font-family:'Tiro Devanagari Marathi', serif; color:var(--wine-dark); margin:0 0 6px; }
+  .zari-border { width:100%; height:12px; display:block; }
+  .top-bar { background:var(--wine); color:var(--gold-light); padding:18px 16px 14px; display:flex; justify-content:space-between; align-items:center; }
+  .top-bar h1 { color:var(--gold-light); font-size:1.5rem; }
+  .top-bar .tagline { font-size:.78rem; color:#E9D3B8; margin-top:2px; }
+  .admin-link { background:transparent; border:1px solid var(--gold); color:var(--gold-light); padding:7px 14px; border-radius:20px; font-size:.85rem; cursor:pointer; font-family:inherit; }
+  .contact-strip { background:var(--peacock); color:#fff; padding:8px 16px; font-size:.82rem; display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap; }
+  .contact-strip a { color:#fff; }
+  .marquee-strip { background:linear-gradient(90deg, var(--gold-dark,#a97a24), var(--gold), var(--gold-dark,#a97a24)); overflow:hidden; white-space:nowrap; position:relative; }
+  .marquee-strip .marquee-track { display:inline-block; padding-left:100%; animation:marquee-scroll 16s linear infinite; }
+  .marquee-strip span { display:inline-block; padding:6px 0; color:var(--wine-dark); font-weight:700; font-size:.82rem; letter-spacing:.02em; }
+  .marquee-strip span::after { content:"✦"; margin:0 26px; opacity:.7; }
+  @keyframes marquee-scroll { 0% { transform:translateX(0); } 100% { transform:translateX(-100%); } }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:18px; padding:20px 16px; }
+  .empty-state { text-align:center; padding:60px 20px; color:#7A5A63; }
+  .saree-card { --zari-border-w:2px; background:#fff; background-image:linear-gradient(#fff,#fff), linear-gradient(135deg, var(--gold-light), var(--gold) 45%, var(--gold-light) 75%, var(--gold)); background-origin:border-box; background-clip:padding-box, border-box; border:var(--zari-border-w) solid transparent; border-radius:12px; overflow:hidden; box-shadow:0 2px 10px rgba(92,26,51,.12); cursor:pointer; display:flex; flex-direction:column; transition:transform .3s cubic-bezier(.25,.8,.25,1), box-shadow .3s ease; animation:cardFadeIn .4s ease-in-out; }
+  .saree-card:hover { transform:translateY(-6px); box-shadow:0 10px 22px rgba(92,26,51,.22); }
+  @keyframes cardFadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+  .wish-heart { position:absolute; top:8px; right:8px; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,.85); backdrop-filter:blur(2px); border:none; display:flex; align-items:center; justify-content:center; font-size:1.05rem; cursor:pointer; z-index:3; color:#B9A2A9; box-shadow:0 2px 6px rgba(0,0,0,.18); transition:transform .15s ease, color .15s ease; }
+  .wish-heart:active { transform:scale(.85); }
+  .wish-heart.on { color:var(--danger); }
+  .wish-heart.on::before { content:"❤"; }
+  .wish-heart:not(.on)::before { content:"♡"; }
+  .wishlist-bar { position:fixed; left:0; right:0; bottom:0; background:linear-gradient(135deg, var(--wine), var(--wine-dark)); color:#fff; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px; z-index:60; box-shadow:0 -4px 16px rgba(0,0,0,.25); }
+  .wishlist-bar span { font-size:.88rem; font-weight:600; }
+  .wishlist-bar .wa-order-btn { margin:0; flex:0 0 auto; width:auto; padding:10px 16px; font-size:.88rem; animation:none; box-shadow:none; }
+  .wishlist-bar .wl-clear { background:none; border:1px solid rgba(255,255,255,.5); color:#fff; padding:9px 12px; border-radius:8px; font-size:.82rem; cursor:pointer; font-family:inherit; }
+  .card-img-wrap { position:relative; height:220px; }
+  .card-img { width:100%; height:100%; object-fit:cover; display:block; }
+  .card-price { position:absolute; bottom:8px; right:8px; background:var(--wine); color:var(--gold-light); padding:4px 10px; border-radius:14px; font-weight:600; font-size:.9rem; display:flex; align-items:center; gap:6px; }
+  .old-price { text-decoration:line-through; opacity:.65; font-weight:400; font-size:.8rem; }
+  .save-badge { background:var(--gold); color:var(--wine-dark); padding:2px 8px; border-radius:10px; font-size:.72rem; font-weight:700; display:inline-block; margin-left:8px; }
+  .save-badge-card { position:absolute; top:8px; left:8px; background:var(--gold); color:var(--wine-dark); padding:3px 9px; border-radius:12px; font-size:.7rem; font-weight:700; z-index:2; box-shadow:0 2px 6px rgba(0,0,0,.2); }
+  .video-badge { position:absolute; top:8px; right:8px; background:rgba(11,25,20,.55); backdrop-filter:blur(2px); color:#fff; padding:4px 9px; border-radius:12px; font-size:.68rem; font-weight:600; z-index:2; display:flex; align-items:center; gap:4px; letter-spacing:.02em; }
+  .sold-out-badge { position:absolute; top:8px; left:8px; background:var(--danger); color:#fff; padding:4px 12px; border-radius:14px; font-weight:700; font-size:.78rem; z-index:2; letter-spacing:.02em; }
+  .saree-card.sold-out .card-img { filter:grayscale(60%); opacity:.75; }
+  .modal-sold-out-badge { display:inline-block; background:var(--danger); color:#fff; padding:4px 12px; border-radius:14px; font-weight:700; font-size:.82rem; margin-bottom:10px; }
+  .stock-check-row { display:flex; align-items:center; gap:8px; margin:12px 0 4px; font-weight:400; }
+  .stock-check-row input { width:auto; }
+  .testimonial-section { padding:8px 16px 26px; }
+  .testimonial-section h4 { font-family:'Tiro Devanagari Marathi', serif; color:var(--wine-dark); font-size:1.1rem; text-align:center; margin:0 0 14px; }
+  .testimonial-row { display:flex; gap:12px; overflow-x:auto; padding-bottom:6px; scroll-snap-type:x mandatory; }
+  .testimonial-card { flex:0 0 240px; scroll-snap-align:start; background:#fff; border:1px solid var(--gold-light); border-radius:12px; padding:14px 16px; box-shadow:0 2px 10px rgba(92,26,51,.1); }
+  .testimonial-card .tc-stars { color:var(--gold); font-size:.9rem; margin-bottom:6px; letter-spacing:1px; }
+  .testimonial-card .tc-text { font-size:.85rem; color:#4A2B33; line-height:1.5; margin:0 0 10px; }
+  .testimonial-card .tc-name { font-size:.8rem; font-weight:700; color:var(--wine-dark); }
+  .related-section { margin-top:22px; }
+  .related-section h4 { font-family:'Tiro Devanagari Marathi', serif; color:var(--wine-dark); font-size:1rem; margin:0 0 10px; }
+  .related-row { display:flex; gap:10px; overflow-x:auto; padding-bottom:4px; }
+  .related-card { flex:0 0 118px; cursor:pointer; }
+  .related-card img { width:118px; height:118px; object-fit:cover; border-radius:8px; display:block; }
+  .related-card .rc-name { font-size:.78rem; color:var(--ink); margin-top:4px; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .related-card .rc-price { font-size:.8rem; color:var(--peacock-dark); font-weight:700; }
+  .card-body { padding:12px 14px 16px; }
+  .card-body h3 { font-size:1.05rem; }
+  .card-body p { font-size:.85rem; color:#6B4A52; margin:0; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .card-material { display:inline-block; margin-top:6px; background:var(--ivory); border:1px solid var(--gold); color:var(--wine-dark); font-size:.72rem; padding:2px 8px; border-radius:10px; }
+  .material-tag { background:var(--ivory); border:1px solid var(--gold-light); color:var(--wine-dark); font-size:.85rem; padding:6px 12px; border-radius:8px; display:inline-block; margin-bottom:12px; }
+  .carousel { position:relative; background:#000; }
+  .carousel-img { width:100%; height:100%; object-fit:contain; background:#111; display:block; cursor:zoom-in; }
+  .lightbox-overlay { position:fixed; inset:0; background:rgba(10,4,7,.96); z-index:200; display:flex; align-items:center; justify-content:center; }
+  .lightbox-scroll { width:100%; height:100%; overflow:auto; display:flex; align-items:center; justify-content:center; -webkit-overflow-scrolling:touch; touch-action:pan-x pan-y pinch-zoom; }
+  .lightbox-img { max-width:100%; max-height:100%; object-fit:contain; cursor:zoom-in; transition:width .25s ease, max-width .25s ease; display:block; margin:auto; }
+  .lightbox-img.zoomed { max-width:none; max-height:none; width:220%; height:auto; cursor:zoom-out; }
+  .lightbox-close { position:absolute; top:14px; right:16px; z-index:5; background:rgba(255,255,255,.15); color:#fff; border:1px solid rgba(255,255,255,.4); width:38px; height:38px; border-radius:50%; font-size:1.2rem; cursor:pointer; }
+  .zoom-hint { position:absolute; bottom:18px; left:50%; transform:translateX(-50%); color:var(--gold-light); font-size:.78rem; background:rgba(0,0,0,.5); padding:5px 12px; border-radius:14px; z-index:5; pointer-events:none; }
+  .carousel-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,.4); color:#fff; border:none; width:36px; height:36px; border-radius:50%; font-size:1.4rem; cursor:pointer; }
+  .carousel-nav.left { left:8px; } .carousel-nav.right { right:8px; }
+  .carousel-dots { position:absolute; bottom:10px; left:0; right:0; display:flex; justify-content:center; gap:6px; }
+  .dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,.5); cursor:pointer; display:inline-block; }
+  .dot.active { background:var(--gold); }
+  .modal-overlay { position:fixed; inset:0; background:rgba(43,22,32,.7); display:flex; align-items:flex-end; justify-content:center; z-index:50; }
+  .modal { background:var(--ivory); width:100%; max-width:480px; max-height:92vh; overflow-y:auto; border-radius:18px 18px 0 0; position:relative; }
+  .modal-close { position:absolute; top:10px; right:10px; z-index:5; background:rgba(43,22,32,.6); color:#fff; border:none; width:32px; height:32px; border-radius:50%; font-size:1.1rem; cursor:pointer; }
+  .modal-body { padding:18px 20px 26px; }
+  .modal-price { color:var(--peacock-dark); font-size:1.3rem; font-weight:700; margin-bottom:10px; }
+  .modal-desc { line-height:1.6; color:#4A2B33; margin-bottom:16px; }
+  .contact-box { background:#fff; border:1px solid var(--gold-light); border-radius:10px; padding:12px 14px; margin-bottom:16px; }
+  .contact-label { font-size:.75rem; color:#967A55; text-transform:uppercase; letter-spacing:.05em; }
+  .contact-name { font-weight:700; color:var(--wine-dark); margin:2px 0 8px; font-family:'Tiro Devanagari Marathi', serif; font-size:1.05rem; }
+  .contact-row { display:flex; gap:10px; flex-wrap:wrap; }
+  .contact-btn { flex:1; text-align:center; padding:9px 10px; border-radius:8px; font-size:.88rem; text-decoration:none; font-weight:600; }
+  .contact-btn.call { background:var(--wine); color:#fff; }
+  .contact-btn.wa { background:#1EA652; color:#fff; }
+  .wa-order-btn { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; box-sizing:border-box; background:linear-gradient(135deg,#25D366,#1EA652); color:#fff; text-decoration:none; font-weight:700; font-size:1rem; padding:14px 16px; border-radius:12px; margin:4px 0 16px; box-shadow:0 4px 16px rgba(37,211,102,.4), 0 0 0 rgba(37,211,102,.5); animation:wa-glow 2.2s ease-in-out infinite; }
+  .wa-order-btn:active { transform:scale(.98); }
+  @keyframes wa-glow { 0%,100% { box-shadow:0 4px 16px rgba(37,211,102,.4), 0 0 0px rgba(37,211,102,.35); } 50% { box-shadow:0 4px 22px rgba(37,211,102,.6), 0 0 18px rgba(37,211,102,.55); } }
+  .btn-primary { background:var(--peacock); color:#fff; border:none; padding:12px 18px; border-radius:9px; font-size:1rem; cursor:pointer; font-family:inherit; font-weight:600; width:100%; margin-top:6px; }
+  .btn-primary:disabled { opacity:.6; cursor:not-allowed; }
+  .share-btn { background:var(--gold); color:var(--wine-dark); }
+  .btn-text { background:none; border:none; color:var(--peacock-dark); text-decoration:underline; cursor:pointer; font-family:inherit; padding:8px 0; }
+  .btn-secondary { background:#fff; color:var(--wine); border:1.5px solid var(--wine); padding:10px 14px; border-radius:9px; font-size:.88rem; cursor:pointer; font-family:inherit; font-weight:600; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; }
+  .gemini-box { background:#FBF1E4; border:1px dashed var(--gold); border-radius:10px; padding:12px 14px; margin:14px 0; }
+  .gemini-box label { margin-top:0; }
+  .gemini-hint { font-size:.78rem; color:#7A5A63; margin:4px 0 10px; line-height:1.4; }
+  #geminiPromptBox { width:100%; box-sizing:border-box; font-size:.82rem; font-family:inherit; margin:10px 0; border-radius:8px; padding:10px; border:1px solid #ddd; resize:vertical; }
+  .gemini-actions { display:flex; gap:10px; flex-wrap:wrap; }
+  .btn-danger { background:var(--danger); color:#fff; border:none; padding:8px 12px; border-radius:7px; cursor:pointer; font-family:inherit; font-size:.82rem; }
+  .page-narrow { max-width:420px; margin:30px auto; padding:0 16px; }
+  .page-wide { max-width:640px; margin:0 auto; padding:20px 16px 40px; }
+  .admin-header { display:flex; justify-content:space-between; align-items:center; }
+  .form-card { background:#fff; border-radius:12px; padding:18px 18px 20px; margin:16px 0; box-shadow:0 2px 10px rgba(92,26,51,.08); }
+  .form-card label { display:block; font-size:.85rem; color:#6B4A52; margin:12px 0 4px; font-weight:600; }
+  .form-card input, .form-card textarea { width:100%; padding:10px 12px; border:1px solid #E3CFB4; border-radius:8px; font-family:inherit; font-size:.95rem; background:#FFFDF9; }
+  .hint { font-size:.82rem; color:#967A55; margin:4px 0 8px; }
+  .thumb-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .thumb { position:relative; width:64px; height:64px; border-radius:8px; overflow:hidden; }
+  .thumb img { width:100%; height:100%; object-fit:cover; }
+  .thumb button { position:absolute; top:2px; right:2px; background:rgba(0,0,0,.6); color:#fff; border:none; width:18px; height:18px; border-radius:50%; font-size:.7rem; cursor:pointer; }
+  .thumb-count { font-size:.78rem; color:#967A55; margin-top:6px; }
+  .admin-list { display:flex; flex-direction:column; gap:10px; }
+  .admin-row { display:flex; align-items:center; gap:12px; background:#fff; border-radius:10px; padding:8px 12px; box-shadow:0 1px 6px rgba(92,26,51,.08); }
+  .admin-row img { width:50px; height:50px; object-fit:cover; border-radius:6px; }
+  .admin-row-info { flex:1; display:flex; flex-direction:column; }
+  .admin-row-info span { color:var(--peacock-dark); font-weight:600; font-size:.85rem; }
+  .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--wine-dark); color:var(--gold-light); padding:10px 18px; border-radius:24px; font-size:.88rem; z-index:100; box-shadow:0 4px 14px rgba(0,0,0,.3); max-width:90vw; text-align:center; }
+  .cat-row { display:flex; gap:8px; overflow-x:auto; padding:14px 16px 4px; }
+  .cat-chip { flex:0 0 auto; background:#fff; border:1px solid var(--gold); color:var(--wine-dark); padding:6px 14px; border-radius:18px; font-size:.82rem; cursor:pointer; white-space:nowrap; font-family:inherit; transition:all .2s ease; }
+  .cat-chip.active { background:var(--wine); color:var(--gold-light); border-color:var(--wine); transform:scale(1.05); box-shadow:0 3px 8px rgba(92,26,51,.3); }
+  .filter-bar { padding:0 16px 10px; }
+  .search-bar-wrap { padding:14px 16px 6px; }
+  .search-input { width:100%; box-sizing:border-box; padding:11px 14px; border:1px solid var(--gold); border-radius:22px; font-family:inherit; font-size:.92rem; background:#fff; color:var(--ink); }
+  .search-input:focus { outline:none; border-color:var(--wine); box-shadow:0 0 0 3px rgba(92,26,51,.12); }
+  .filter-toggle-btn { background:linear-gradient(135deg, var(--wine), var(--wine-dark)); border:1px solid var(--gold); color:var(--gold-light); padding:8px 16px; border-radius:20px; font-size:.85rem; cursor:pointer; font-family:inherit; font-weight:700; box-shadow:0 2px 8px rgba(92,26,51,.25); transition:transform .15s ease, box-shadow .15s ease; }
+  .filter-toggle-btn:active { transform:scale(.96); }
+  .filter-toggle-btn.has-filters::after { content:"●"; color:var(--gold); margin-left:6px; font-size:.7rem; }
+  .filter-panel { background:linear-gradient(180deg, #fff, var(--ivory)); border:1px solid var(--gold); border-radius:14px; padding:16px; margin-top:10px; box-shadow:0 6px 18px rgba(92,26,51,.15); display:flex; flex-direction:column; gap:14px; max-height:0; opacity:0; overflow:hidden; padding-top:0; padding-bottom:0; margin-top:0; transition:max-height .35s ease, opacity .3s ease, padding .35s ease, margin .35s ease; }
+  .filter-panel.open { max-height:600px; opacity:1; padding:16px; margin-top:10px; }
+  .filter-group label { display:block; font-size:.8rem; color:var(--wine-dark); font-weight:700; margin-bottom:6px; }
+  .filter-group select, .filter-group input { width:100%; padding:9px 10px; border:1px solid #E3CFB4; border-radius:8px; font-family:inherit; font-size:.9rem; background:#fff; box-sizing:border-box; transition:border-color .15s ease, box-shadow .15s ease; }
+  .filter-group select:focus, .filter-group input:focus { outline:none; border-color:var(--wine); box-shadow:0 0 0 3px rgba(92,26,51,.12); }
+  .price-range-row { display:flex; align-items:center; gap:8px; }
+  .price-range-row input { width:auto; flex:1; }
+  .price-range-row span { color:#967A55; font-size:.85rem; }
+  .filter-apply-btn { background:linear-gradient(135deg, var(--peacock), var(--peacock-dark)); margin-top:2px; }
+  .cat-manage-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .cat-tag { background:var(--ivory); border:1px solid var(--gold); color:var(--wine-dark); padding:5px 10px; border-radius:14px; font-size:.8rem; display:flex; align-items:center; gap:6px; }
+  .cat-tag button { background:none; border:none; color:var(--danger); cursor:pointer; font-size:.85rem; padding:0; }
+  .cat-check-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+  .cat-check-row label { display:flex; align-items:center; gap:5px; background:var(--ivory); border:1px solid #E3CFB4; padding:5px 10px; border-radius:14px; font-size:.8rem; font-weight:400; margin:0; width:auto; }
+  .cat-check-row input { width:auto; }
+  .promo-video { position:fixed; bottom:16px; right:16px; width:150px; border-radius:12px; overflow:hidden; box-shadow:0 6px 20px rgba(0,0,0,.35); z-index:40; background:#000; }
+  .promo-video iframe, .promo-video video { width:100%; height:230px; display:block; border:0; }
+  .promo-video .pv-close { position:absolute; top:4px; right:4px; background:rgba(0,0,0,.6); color:#fff; border:none; width:22px; height:22px; border-radius:50%; font-size:.75rem; cursor:pointer; z-index:2; }
+  .video-preview { position:relative; width:110px; margin-top:10px; }
+  .video-preview video { width:110px; height:150px; object-fit:cover; border-radius:8px; display:block; background:#000; }
+  .video-preview button { position:absolute; top:-6px; right:-6px; background:var(--danger); color:#fff; border:none; width:22px; height:22px; border-radius:50%; font-size:.7rem; cursor:pointer; }
+  .video-uploading { font-size:.8rem; color:var(--peacock-dark); margin-top:8px; }
+  .saree-video-block { margin-top:14px; }
+  .saree-video-block video { width:100%; border-radius:10px; max-height:320px; background:#000; }
+  .like-row { display:flex; align-items:center; gap:8px; margin:10px 0 4px; }
+  .like-btn { background:#fff; border:1px solid var(--gold); color:var(--wine); width:42px; height:42px; border-radius:50%; font-size:1.2rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .like-btn.liked { background:var(--wine); color:#fff; }
+  .like-count { font-size:.9rem; color:#6B4A52; }
+  .comments-section { margin-top:24px; }
+  .comments-section h4 { font-family:'Tiro Devanagari Marathi', serif; color:var(--wine-dark); font-size:1rem; margin:0 0 10px; }
+  .comment-item { background:#fff; border:1px solid #EEDFC4; border-radius:8px; padding:8px 10px; margin-bottom:8px; position:relative; }
+  .comment-item .cn { font-weight:700; font-size:.82rem; color:var(--wine-dark); }
+  .comment-item .ct { font-size:.85rem; color:#4A2B33; margin-top:2px; }
+  .comment-item .cdel { position:absolute; top:6px; right:8px; background:none; border:none; color:var(--danger); cursor:pointer; font-size:.8rem; }
+  .no-comments { font-size:.82rem; color:#967A55; }
+  .edit-banner { background:var(--gold-light); color:var(--wine-dark); padding:8px 12px; border-radius:8px; font-size:.82rem; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
+  .admin-row .edit-btn { background:var(--peacock); color:#fff; border:none; padding:8px 12px; border-radius:7px; cursor:pointer; font-family:inherit; font-size:.82rem; }
+  .hidden { display:none !important; }
+  @media (max-width:420px){ .top-bar h1{font-size:1.25rem;} .card-img-wrap{height:190px;} }
+  @media (max-width:600px){ .grid { grid-template-columns:repeat(2, 1fr); gap:10px; padding:14px 10px; } .card-body{padding:9px 10px 12px;} .card-body h3{font-size:.92rem;} .card-body p{font-size:.76rem; -webkit-line-clamp:2;} .card-material{font-size:.66rem; padding:2px 6px;} .card-price{font-size:.78rem; padding:3px 8px;} .old-price{font-size:.68rem;} }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div>
+    <h1>साज साडी बाजार</h1>
+    <div class="tagline">पारंपरिक साड्यांचा हक्काचा संग्रह</div>
+  </div>
+  <div style="display:flex; gap:8px; align-items:center;">
+    <button class="admin-link hidden" id="installBtn">📲 अॅप इन्स्टॉल करा</button>
+    <button class="admin-link" id="adminBtn">अॅडमिन</button>
+  </div>
+</div>
+
+<div class="marquee-strip">
+  <div class="marquee-track"><span>✨ सर्व प्रकारच्या पैठणी व सिल्क साड्यांवर खास सूट! ✨ मर्यादित काळासाठी ऑफर — आजच व्हॉट्सॲपवर संपर्क साधा!</span></div>
+</div>
+
+<div class="contact-strip hidden" id="contactStrip"></div>
+
+<div id="customerView">
+  <div class="search-bar-wrap">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 साडीचं नाव शोधा... उदा. पैठणी, रेड सिल्क" />
+  </div>
+  <div class="cat-row" id="catRow"></div>
+  <div class="filter-bar" id="filterBar">
+    <button type="button" class="filter-toggle-btn" id="filterToggleBtn">⚙️ फिल्टर / सॉर्ट</button>
+    <div class="filter-panel" id="filterPanel">
+      <div class="filter-group">
+        <label>किंमत</label>
+        <div class="price-range-row">
+          <input type="number" id="priceMin" placeholder="₹ किमान" min="0" />
+          <span>ते</span>
+          <input type="number" id="priceMax" placeholder="₹ कमाल" min="0" />
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>कापड / मटेरियल</label>
+        <select id="materialFilter"><option value="">सर्व</option></select>
+      </div>
+      <div class="filter-group">
+        <label>क्रमवारी</label>
+        <select id="sortFilter">
+          <option value="new">नवीन आधी</option>
+          <option value="old">जुनं आधी</option>
+          <option value="price_low">किंमत: कमी ते जास्त</option>
+          <option value="price_high">किंमत: जास्त ते कमी</option>
+        </select>
+      </div>
+      <button type="button" class="btn-primary filter-apply-btn" id="applyFiltersBtn">लागू करा ✓</button>
+      <button type="button" class="btn-text" id="clearFiltersBtn">फिल्टर रिसेट करा</button>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="testimonial-section" id="testimonialSection"></div>
+</div>
+
+<div class="wishlist-bar hidden" id="wishlistBar"></div>
+
+<div class="promo-video hidden" id="promoVideoBox"></div>
+
+<div class="page-narrow hidden" id="loginView">
+  <svg class="zari-border" viewBox="0 0 240 14" preserveAspectRatio="none"></svg>
+  <form class="form-card" id="loginForm">
+    <h2>अॅडमिन लॉगिन</h2>
+    <label>पासवर्ड</label>
+    <input type="password" id="passInput" placeholder="पासवर्ड टाका" autocomplete="off" />
+    <button type="submit" class="btn-primary">लॉगिन करा</button>
+    <button type="button" class="btn-text" id="backBtn">← ग्राहकांच्या पानावर परत जा</button>
+  </form>
+</div>
+
+<div class="page-wide hidden" id="adminView">
+  <div class="admin-header">
+    <h2>अॅडमिन पॅनल</h2>
+    <button class="btn-text" id="logoutBtn">लॉगआउट ⟶</button>
+  </div>
+  <svg class="zari-border" viewBox="0 0 240 14" preserveAspectRatio="none"></svg>
+  <section class="form-card">
+    <h3>संपर्क तपशील</h3>
+    <p class="hint">हे तपशील ग्राहकांना प्रत्येक साडीच्या पानावर दिसतील.</p>
+    <form id="contactForm">
+      <label>नाव / दुकानाचे नाव</label>
+      <input id="cName" placeholder="उदा. लक्ष्मी साडी सेंटर" />
+      <label>फोन नंबर</label>
+      <input id="cPhone" placeholder="उदा. 9876543210" />
+      <label>व्हॉट्सअॅप नंबर</label>
+      <input id="cWhats" placeholder="उदा. 919876543210" />
+      <button type="submit" class="btn-primary">संपर्क जतन करा</button>
+    </form>
+  </section>
+
+  <svg class="zari-border" viewBox="0 0 240 14" preserveAspectRatio="none"></svg>
+  <section class="form-card">
+    <h3>सेक्शन्स / कॅटेगरी</h3>
+    <p class="hint">उदा. Silk, Paithani, Under ₹999 — ग्राहकांना वरती टॅब्जमध्ये दिसतील.</p>
+    <form id="catForm" style="display:flex; gap:8px; align-items:flex-end;">
+      <div style="flex:1;">
+        <label>नवीन सेक्शन नाव</label>
+        <input id="catInput" placeholder="उदा. पैठणी" />
+      </div>
+      <button type="submit" class="btn-primary" style="width:auto; margin-top:12px;">जोडा</button>
+    </form>
+    <div class="cat-manage-row" id="catManageRow"></div>
+  </section>
+
+  <svg class="zari-border" viewBox="0 0 240 14" preserveAspectRatio="none"></svg>
+  <section class="form-card">
+    <h3>प्रमोशनल व्हिडिओ (पॉपअप)</h3>
+    <p class="hint">YouTube लिंक किंवा थेट व्हिडिओ (.mp4) लिंक टाका — ग्राहकांना पानाच्या खाली उजवीकडे छोटा व्हिडिओ दिसेल.</p>
+    <form id="videoForm">
+      <label>व्हिडिओ लिंक</label>
+      <input id="vUrl" placeholder="उदा. https://youtube.com/watch?v=..." />
+      <label style="display:flex; align-items:center; gap:8px; font-weight:400; margin-top:14px;">
+        <input type="checkbox" id="vEnabled" style="width:auto;" /> पॉपअप सुरू ठेवा
+      </label>
+      <button type="submit" class="btn-primary">व्हिडिओ जतन करा</button>
+    </form>
+  </section>
+  <svg class="zari-border" viewBox="0 0 240 14" preserveAspectRatio="none"></svg>
+  <section class="form-card">
+    <h3 id="sareeFormTitle">नवीन साडी जोडा</h3>
+    <div class="edit-banner hidden" id="editBanner">
+      <span>ही साडी एडिट करत आहात</span>
+      <button type="button" class="btn-text" id="cancelEditBtn" style="padding:0;">रद्द करा</button>
+    </div>
+    <form id="sareeForm">
+      <label>साडीचे नाव</label>
+      <input id="sName" placeholder="उदा. पैठणी सिल्क साडी" />
+      <label>किंमत (₹)</label>
+      <input id="sPrice" type="number" placeholder="उदा. 4500" />
+      <label>जुनी किंमत (ऐच्छिक — सूट दाखवण्यासाठी)</label>
+      <input id="sOldPrice" type="number" placeholder="उदा. 6500 (रिकामं ठेवू शकता)" />
+      <label>वर्णन</label>
+      <textarea id="sDesc" rows="3" placeholder="रंग, कापड, नक्षी इ. बद्दल लिहा"></textarea>
+      <label>कापड / मटेरियल (ऐच्छिक)</label>
+      <input id="sMaterial" placeholder="उदा. पैठणी सिल्क, कॉटन, बनारसी सिल्क" />
+      <label class="stock-check-row">
+        <input type="checkbox" id="sOutOfStock" style="width:auto;" /> ही साडी सध्या उपलब्ध नाही (Out of Stock)
+      </label>
+      <label>सेक्शन्स (ऐच्छिक)</label>
+      <div class="cat-check-row" id="sCatRow"></div>
+      <label>फोटो (जास्तीत जास्त 5)</label>
+      <input id="sFiles" type="file" accept="image/*" multiple />
+      <div id="imageUploadStatus"></div>
+      <div class="thumb-row" id="thumbRow"></div>
+      <div class="thumb-count" id="thumbCount">0 / 5 फोटो निवडले</div>
+
+      <div class="gemini-box">
+        <label>🤖 AI मॉडेल फोटो (Gemini साठी प्रॉम्प्ट)</label>
+        <p class="gemini-hint">वरती साडीचा फोटो अपलोड केल्यावर खालचं बटण दाबा — त्या साडीच्या नाव/कापड/वर्णनावरून एक तयार प्रॉम्प्ट मिळेल. तो कॉपी करून Gemini मध्ये साडीच्या फोटोसोबत पेस्ट करा — मराठमोळ्या मॉडेलचे ३ वेगवेगळ्या angle चे फोटो मिळतील (पदर व काठ स्पष्ट दिसतील असे).</p>
+        <button type="button" class="btn-secondary" id="genGeminiPromptBtn">✨ प्रॉम्प्ट तयार करा</button>
+        <textarea id="geminiPromptBox" rows="6" readonly placeholder="प्रॉम्प्ट इथे तयार होईल..." class="hidden"></textarea>
+        <div class="gemini-actions hidden" id="geminiActions">
+          <button type="button" class="btn-secondary" id="copyGeminiPromptBtn">📋 प्रॉम्प्ट कॉपी करा</button>
+          <a href="https://gemini.google.com/app" target="_blank" class="btn-secondary" id="openGeminiLink">🔗 Gemini उघडा</a>
+        </div>
+      </div>
+
+      <label>या साडीचा छोटा व्हिडिओ (ऐच्छिक, जास्तीत जास्त 15MB)</label>
+      <input id="sVideoFile" type="file" accept="video/*" />
+      <div id="videoUploadStatus"></div>
+      <div id="videoPreviewBox"></div>
+      <button type="submit" class="btn-primary" id="sareeSubmitBtn">साडी जोडा</button>
+    </form>
+  </section>
+  <svg class="zari-border" viewBox="0 0 240 14" preserveAspectRatio="none"></svg>
+  <section>
+    <h3 id="listTitle">तुमच्या साड्या (0)</h3>
+    <div class="admin-list" id="adminList"></div>
+  </section>
+</div>
+
+<div class="modal-overlay hidden" id="modalOverlay">
+  <div class="modal" id="modalBox"></div>
+</div>
+
+<div class="lightbox-overlay hidden" id="lightboxOverlay">
+  <button class="lightbox-close" id="lightboxClose">✕</button>
+  <div class="lightbox-scroll" id="lightboxScroll">
+    <img class="lightbox-img" id="lightboxImg" src="" alt="">
+  </div>
+  <div class="zoom-hint">फोटोवर टॅप करून झूम करा</div>
+</div>
+
+<div id="toastBox"></div>
+
+<script type="module">
+/* ------------- Firebase ------------- */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, deleteDoc, doc, setDoc,
+  onSnapshot, query, orderBy, arrayUnion, arrayRemove, increment
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import {
+  getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+/* Firebase Storage काढलं — त्याऐवजी Cloudinary वापरतोय (खाली CLOUDINARY_CONFIG बघ) */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB6V0Aw2SaL8TYHeJG-HAUEllbmklbKrpU",
+  authDomain: "saree-bazaar-6e2dd.firebaseapp.com",
+  projectId: "saree-bazaar-6e2dd",
+  storageBucket: "saree-bazaar-6e2dd.firebasestorage.app",
+  messagingSenderId: "963592382777",
+  appId: "1:963592382777:web:547f837bb709068b7820e8"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+/* ------------- Cloudinary (video/image hosting, free, no card) ------------- */
+const CLOUDINARY_CONFIG = {
+  cloudName: "rvdyrljg",
+  uploadPreset: "nx43ddgh"
+};
+async function uploadToCloudinary(file, resourceType = "video") {
+  const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/${resourceType}/upload`;
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", CLOUDINARY_CONFIG.uploadPreset);
+  const res = await fetch(url, { method: "POST", body: formData });
+  if (!res.ok) throw new Error("Cloudinary upload failed: " + res.status);
+  const data = await res.json();
+  return data.secure_url;
+}
+const sareesCol = collection(db, "sarees");
+const contactRef = doc(db, "meta", "contact");
+const videoRef = doc(db, "meta", "promoVideo");
+const categoriesRef = doc(db, "meta", "categories");
+const commentsCol = (sareeId) => collection(db, "sarees", sareeId, "comments");
+
+/* ------------- constants ------------- */
+// अॅडमिन आता login फॉर्ममध्ये टाकलेला ईमेल वापरून लॉगिन करतो (हार्डकोड नाही)
+const MAX_IMAGES = 5, MAX_DIM = 700, JPEG_QUALITY = 0.55;
+const MAX_VIDEO_MB = 15;
+
+/* ------------- state ------------- */
+let sarees = [];
+let contact = null;
+let categories = [];
+let promoVideo = null;
+let videoDismissed = false;
+let activeCategory = "सर्व";
+let priceMinVal = "", priceMaxVal = "", materialVal = "", sortVal = "new";
+let searchQuery = "";
+let pendingImages = [];
+let pendingVideoUrl = "";
+let editingId = null;
+let likedIds = new Set();
+let commentsUnsub = null;
+let currentView = "customer";
+let wishlistIds = new Set(JSON.parse(localStorage.getItem("saj_wishlist") || "[]"));
+function saveWishlist(){ localStorage.setItem("saj_wishlist", JSON.stringify([...wishlistIds])); }
+
+/* ------------- helpers ------------- */
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+function toast(msg){
+  const el = document.createElement("div");
+  el.className = "toast"; el.textContent = msg;
+  document.getElementById("toastBox").appendChild(el);
+  setTimeout(()=>el.remove(), 2200);
+}
+function zariSVG(){
+  let paths = "";
+  for(let i=0;i<20;i++){ paths += `<path d="M${i*12} 14 L${i*12+6} 2 L${i*12+12} 14 Z" fill="var(--wine)"/>`; }
+  return `<rect width="240" height="14" fill="var(--gold)"/>${paths}`;
+}
+document.querySelectorAll('.zari-border').forEach(svg => svg.innerHTML = zariSVG());
+
+function resizeImageFile(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error("फाईल वाचता आली नाही"));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("फोटो लोड होऊ शकला नाही"));
+      img.onload = () => {
+        let {width, height} = img;
+        if (width > height && width > MAX_DIM){ height = Math.round(height*MAX_DIM/width); width = MAX_DIM; }
+        else if (height > MAX_DIM){ width = Math.round(width*MAX_DIM/height); height = MAX_DIM; }
+        const canvas = document.createElement("canvas");
+        canvas.width = width; canvas.height = height;
+        canvas.getContext("2d").drawImage(img,0,0,width,height);
+        canvas.toBlob(blob => {
+          if (!blob) { reject(new Error("फोटो प्रोसेस करता आला नाही")); return; }
+          resolve(blob);
+        }, "image/jpeg", JPEG_QUALITY);
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ------------- views ------------- */
+const customerView = document.getElementById("customerView");
+const loginView = document.getElementById("loginView");
+const adminView = document.getElementById("adminView");
+const adminBtn = document.getElementById("adminBtn");
+const contactStrip = document.getElementById("contactStrip");
+
+function showView(name){
+  currentView = name;
+  customerView.classList.toggle("hidden", name !== "customer");
+  loginView.classList.toggle("hidden", name !== "login");
+  adminView.classList.toggle("hidden", name !== "admin");
+  adminBtn.classList.toggle("hidden", name !== "customer");
+  if(name === "customer") renderCustomer();
+  if(name === "admin") renderAdmin();
+  renderPromoVideo();
+}
+
+adminBtn.onclick = () => showView(auth.currentUser ? "admin" : "login");
+document.getElementById("backBtn").onclick = () => showView("customer");
+document.getElementById("logoutBtn").onclick = () => signOut(auth);
+
+const ADMIN_EMAIL = "pinu.mami@saajsaree.com"; // अॅडमिन ईमेल — फक्त Firebase Auth ओळखण्यासाठी, ग्राहकांना दिसत नाही
+
+document.getElementById("loginForm").onsubmit = async (e) => {
+  e.preventDefault();
+  const pass = document.getElementById("passInput").value;
+  if (!pass){ toast("कृपया पासवर्ड टाका"); return; }
+  const btn = e.target.querySelector("button[type=submit]");
+  btn.disabled = true; btn.textContent = "लॉगिन करत आहे...";
+  try {
+    await signInWithEmailAndPassword(auth, ADMIN_EMAIL, pass);
+    document.getElementById("passInput").value = "";
+  } catch (err) {
+    toast("पासवर्ड चुकीचा आहे");
+  } finally {
+    btn.disabled = false; btn.textContent = "लॉगिन करा";
+  }
+};
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    if (currentView === "login") showView("admin");
+  } else {
+    if (currentView === "admin") showView("customer");
+  }
+});
+
+/* ------------- customer rendering ------------- */
+function renderContactStrip(){
+  if (contact && contact.phone){
+    contactStrip.classList.remove("hidden");
+    contactStrip.innerHTML = `<span>🧵 ${contact.name || "विक्रेता"}</span><a href="tel:${contact.phone}">📞 ${contact.phone}</a>`;
+  } else {
+    contactStrip.classList.add("hidden");
+  }
+}
+renderContactStrip();
+
+function cardPriceHTML(s){
+  if (s.oldPrice && Number(s.oldPrice) > Number(s.price)){
+    return `₹${s.price} <span class="old-price">₹${s.oldPrice}</span>`;
+  }
+  return `₹${s.price}`;
+}
+function cardSaveBadgeHTML(s){
+  if (s.oldPrice && Number(s.oldPrice) > Number(s.price)){
+    const save = Number(s.oldPrice) - Number(s.price);
+    const pct = Math.round((save / Number(s.oldPrice)) * 100);
+    return `<div class="save-badge-card">₹${save} सूट (${pct}% OFF)</div>`;
+  }
+  return "";
+}
+function waOrderMessage(s){
+  const price = s.oldPrice && Number(s.oldPrice) > Number(s.price) ? `₹${s.price} (मूळ किंमत ₹${s.oldPrice})` : `₹${s.price}`;
+  const link = `${location.origin}${location.pathname}?saree=${s.id}`;
+  const text = `नमस्कार 🙏, मला ही साडी खरेदी करायची आहे:\n\n🧵 ${s.name}\n💰 किंमत: ${price}\n🔗 लिंक: ${link}\n\nकृपया उपलब्धता कळवा.`;
+  return encodeURIComponent(text);
+}
+function modalPriceHTML(s){
+  if (s.oldPrice && Number(s.oldPrice) > Number(s.price)){
+    const save = Number(s.oldPrice) - Number(s.price);
+    return `₹${s.price} <span class="old-price">₹${s.oldPrice}</span><span class="save-badge">₹${save} बचत</span>`;
+  }
+  return `₹${s.price}`;
+}
+
+function renderCatChips(){
+  const row = document.getElementById("catRow");
+  if (categories.length === 0){ row.innerHTML = ""; return; }
+  const all = ["सर्व", ...categories];
+  row.innerHTML = all.map(c =>
+    `<button class="cat-chip ${c === activeCategory ? 'active' : ''}" data-c="${c}">${c}</button>`).join("");
+  row.querySelectorAll(".cat-chip").forEach(btn => {
+    btn.onclick = () => { activeCategory = btn.dataset.c; renderCustomer(); };
+  });
+}
+
+function populateMaterialFilter(){
+  const sel = document.getElementById("materialFilter");
+  const materials = Array.from(new Set(sarees.map(s => (s.material||"").trim()).filter(Boolean))).sort();
+  sel.innerHTML = `<option value="">सर्व</option>` + materials.map(m => `<option value="${m}">${m}</option>`).join("");
+  sel.value = materials.includes(materialVal) ? materialVal : "";
+}
+let searchDebounce = null;
+document.getElementById("searchInput").oninput = (e) => {
+  clearTimeout(searchDebounce);
+  const val = e.target.value;
+  searchDebounce = setTimeout(() => { searchQuery = val; renderCustomer(); }, 250);
+};
+document.getElementById("filterToggleBtn").onclick = () => {
+  document.getElementById("filterPanel").classList.toggle("open");
+};
+function updateFilterBadge(){
+  const active = priceMinVal !== "" || priceMaxVal !== "" || materialVal !== "" || sortVal !== "new";
+  document.getElementById("filterToggleBtn").classList.toggle("has-filters", active);
+}
+document.getElementById("applyFiltersBtn").onclick = () => {
+  priceMinVal = document.getElementById("priceMin").value;
+  priceMaxVal = document.getElementById("priceMax").value;
+  materialVal = document.getElementById("materialFilter").value;
+  sortVal = document.getElementById("sortFilter").value;
+  updateFilterBadge();
+  renderCustomer();
+  document.getElementById("filterPanel").classList.remove("open");
+};
+document.getElementById("clearFiltersBtn").onclick = () => {
+  priceMinVal = ""; priceMaxVal = ""; materialVal = ""; sortVal = "new";
+  document.getElementById("priceMin").value = "";
+  document.getElementById("priceMax").value = "";
+  document.getElementById("materialFilter").value = "";
+  document.getElementById("sortFilter").value = "new";
+  updateFilterBadge();
+  renderCustomer();
+  document.getElementById("filterPanel").classList.remove("open");
+};
+
+function renderCustomer(){
+  renderContactStrip();
+  renderCatChips();
+  populateMaterialFilter();
+  document.getElementById("priceMin").value = priceMinVal;
+  document.getElementById("priceMax").value = priceMaxVal;
+  document.getElementById("sortFilter").value = sortVal;
+  const grid = document.getElementById("grid");
+  let filtered = activeCategory === "सर्व" ? sarees.slice() : sarees.filter(s => (s.categories||[]).includes(activeCategory));
+  if (searchQuery.trim() !== ""){
+    const q = searchQuery.trim().toLowerCase();
+    filtered = filtered.filter(s => (s.name||"").toLowerCase().includes(q) || (s.material||"").toLowerCase().includes(q) || (s.description||"").toLowerCase().includes(q));
+  }
+  if (priceMinVal !== "") filtered = filtered.filter(s => Number(s.price) >= Number(priceMinVal));
+  if (priceMaxVal !== "") filtered = filtered.filter(s => Number(s.price) <= Number(priceMaxVal));
+  if (materialVal !== "") filtered = filtered.filter(s => (s.material||"") === materialVal);
+  if (sortVal === "new") filtered.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+  else if (sortVal === "old") filtered.sort((a,b) => (a.createdAt||0) - (b.createdAt||0));
+  else if (sortVal === "price_low") filtered.sort((a,b) => Number(a.price) - Number(b.price));
+  else if (sortVal === "price_high") filtered.sort((a,b) => Number(b.price) - Number(a.price));
+  if (filtered.length === 0){
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><p>या फिल्टरनुसार एकही साडी सापडली नाही.</p><p>फिल्टर बदलून पुन्हा बघा.</p></div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map(s => `
+    <div class="saree-card ${s.outOfStock ? 'sold-out' : ''}" data-id="${s.id}">
+      <div class="card-img-wrap">
+        ${s.outOfStock ? `<div class="sold-out-badge">विकली गेली</div>` : cardSaveBadgeHTML(s)}
+        ${s.videoUrl ? `<div class="video-badge">▶ Reels</div>` : ""}
+        <button type="button" class="wish-heart ${wishlistIds.has(s.id) ? 'on' : ''}" data-wid="${s.id}" title="आवडती यादीत ठेवा"></button>
+        <img class="card-img" src="${s.images[0]}" alt="${s.name}" loading="lazy">
+        <div class="card-price">${cardPriceHTML(s)}</div>
+      </div>
+      <svg class="zari-border" viewBox="0 0 240 14" preserveAspectRatio="none">${zariSVG()}</svg>
+      <div class="card-body"><h3>${s.name}</h3><p>${s.description}</p>${s.material ? `<span class="card-material">🧵 ${s.material}</span>` : ""}</div>
+    </div>`).join("");
+  grid.querySelectorAll(".saree-card").forEach(card => {
+    card.onclick = () => openDetail(card.dataset.id);
+  });
+  grid.querySelectorAll(".wish-heart").forEach(btn => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.wid;
+      if (wishlistIds.has(id)) wishlistIds.delete(id); else wishlistIds.add(id);
+      saveWishlist();
+      btn.classList.toggle("on");
+      renderWishlistBar();
+    };
+  });
+  renderTestimonials();
+  renderWishlistBar();
+}
+
+/* ------------- wishlist: combined WhatsApp order ------------- */
+function renderWishlistBar(){
+  const bar = document.getElementById("wishlistBar");
+  const count = wishlistIds.size;
+  if (count === 0 || !contact || !contact.whatsapp){ bar.classList.add("hidden"); bar.innerHTML = ""; return; }
+  bar.classList.remove("hidden");
+  bar.innerHTML = `
+    <span>❤ ${count} साडी आवडीच्या यादीत</span>
+    <div style="display:flex; gap:8px;">
+      <button type="button" class="wl-clear" id="wlClearBtn">रिकामी करा</button>
+      <a href="https://wa.me/${contact.whatsapp.replace(/\D/g,'')}?text=${wishlistOrderMessage()}" target="_blank" class="wa-order-btn">🛒 सर्व एकत्र ऑर्डर करा</a>
+    </div>`;
+  document.getElementById("wlClearBtn").onclick = () => {
+    wishlistIds.clear(); saveWishlist(); renderCustomer();
+  };
+}
+function wishlistOrderMessage(){
+  const items = sarees.filter(s => wishlistIds.has(s.id));
+  const link = `${location.origin}${location.pathname}`;
+  const NL = String.fromCharCode(10);
+  const lines = items.map((s,i) => `${i+1}. ${s.name} — ₹${s.price}`).join(NL);
+  const text = ["नमस्कार 🙏, मला या साड्या खरेदी करायच्या आहेत:", "", lines, "", `🔗 ${link}`, "", "कृपया उपलब्धता कळवा."].join(NL);
+  return encodeURIComponent(text);
+}
+
+/* ------------- testimonials ------------- */
+const TESTIMONIALS = [
+  { name: "सीमा जोशी", text: "साडीची क्वालिटी अगदी फोटोत दाखवल्याप्रमाणेच होती. डिलिव्हरीही वेळेत मिळाली!", stars: 5 },
+  { name: "अंजली पाटील", text: "पैठणी साडी घेतली, रंग आणि काठाचं काम खूप सुंदर आहे. नक्की पुन्हा ऑर्डर करेन.", stars: 5 },
+  { name: "रेखा देशमुख", text: "व्हॉट्सॲपवर लगेच उत्तर मिळालं आणि खरेदीही सोपी झाली. धन्यवाद!", stars: 4 }
+];
+function renderTestimonials(){
+  const box = document.getElementById("testimonialSection");
+  if (!box) return;
+  box.innerHTML = `
+    <h4>ग्राहकांचे अभिप्राय</h4>
+    <div class="testimonial-row">
+      ${TESTIMONIALS.map(t => `
+        <div class="testimonial-card">
+          <div class="tc-stars">${"★".repeat(t.stars)}${"☆".repeat(5-t.stars)}</div>
+          <p class="tc-text">${t.text}</p>
+          <div class="tc-name">— ${t.name}</div>
+        </div>`).join("")}
+    </div>`;
+}
+
+/* ------------- related sarees ("तुम्हाला हे पण आवडेल") ------------- */
+function relatedHTML(current){
+  const others = sarees.filter(s => s.id !== current.id);
+  if (others.length === 0) return "";
+  const shuffled = others.slice().sort(() => Math.random() - 0.5).slice(0, 6);
+  return `
+    <div class="related-section">
+      <h4>तुम्हाला हे पण आवडेल</h4>
+      <div class="related-row">
+        ${shuffled.map(s => `
+          <div class="related-card" data-id="${s.id}">
+            <img src="${s.images[0]}" alt="${s.name}" loading="lazy">
+            <div class="rc-name">${s.name}</div>
+            <div class="rc-price">₹${s.price}</div>
+          </div>`).join("")}
+      </div>
+    </div>`;
+}
+
+/* ------------- detail modal ------------- */
+function openDetail(id){
+  const s = sarees.find(x => x.id === id);
+  if (!s) return;
+  let idx = 0;
+  const overlay = document.getElementById("modalOverlay");
+  const box = document.getElementById("modalBox");
+
+  function draw(){
+    const nav = s.images.length > 1 ? `
+      <button class="carousel-nav left">‹</button>
+      <button class="carousel-nav right">›</button>
+      <div class="carousel-dots">${s.images.map((_,i)=>`<span class="dot ${i===idx?'active':''}" data-i="${i}"></span>`).join("")}</div>` : "";
+    box.innerHTML = `
+      <button class="modal-close">✕</button>
+      <div class="carousel" style="height:340px">
+        <img class="carousel-img" src="${s.images[idx]}" alt="${s.name}">
+        ${nav}
+      </div>
+      <svg class="zari-border" viewBox="0 0 240 14" preserveAspectRatio="none">${zariSVG()}</svg>
+      <div class="modal-body">
+        <h2>${s.name}</h2>
+        ${s.outOfStock ? `<div class="modal-sold-out-badge">विकली गेली — सध्या उपलब्ध नाही</div>` : ""}
+        <div class="modal-price">${modalPriceHTML(s)}</div>
+        <div class="like-row">
+          <button class="like-btn ${likedIds.has(s.id) ? 'liked' : ''}" id="likeBtn">❤</button>
+          <span class="like-count" id="likeCount">${s.likes || 0} जणांना आवडली</span>
+        </div>
+        <p class="modal-desc">${s.description}</p>
+        ${s.material ? `<div class="material-tag">🧵 कापड: <strong>${s.material}</strong></div>` : ""}
+        ${s.videoUrl ? `
+          <div class="saree-video-block">
+            <video src="${s.videoUrl}" controls playsinline></video>
+          </div>` : ""}
+        ${contact && contact.phone ? `
+          <div class="contact-box">
+            <div class="contact-label">विक्रेता संपर्क</div>
+            <div class="contact-name">${contact.name || "अॅडमिन"}</div>
+            ${contact.whatsapp ? `
+              <a href="https://wa.me/${contact.whatsapp.replace(/\D/g,'')}?text=${waOrderMessage(s)}" target="_blank" class="wa-order-btn">🛒 व्हॉट्सॲपवर ऑर्डर करा</a>` : ""}
+            <div class="contact-row">
+              <a href="tel:${contact.phone}" class="contact-btn call">📞 कॉल करा</a>
+            </div>
+          </div>` : ""}
+        <button class="btn-primary share-btn" id="shareBtn">🔗 ही साडी शेअर करा</button>
+        ${relatedHTML(s)}
+        <div class="comments-section">
+          <h4>कमेंट्स</h4>
+          <div id="commentsList"><p class="no-comments">लोड होत आहे...</p></div>
+          <form id="commentForm">
+            <label>तुमचं नाव</label>
+            <input id="cmtName" placeholder="उदा. सीमा" />
+            <label>तुमचा अभिप्राय</label>
+            <textarea id="cmtText" rows="2" placeholder="ही साडी कशी वाटली?"></textarea>
+            <button type="submit" class="btn-primary">कमेंट पाठवा</button>
+          </form>
+        </div>
+      </div>`;
+    box.querySelector(".modal-close").onclick = () => closeModal();
+    box.querySelector(".carousel-img").onclick = () => openLightbox(s.images[idx]);
+    if (s.images.length > 1){
+      box.querySelector(".left").onclick = () => { idx = (idx-1+s.images.length)%s.images.length; draw(); };
+      box.querySelector(".right").onclick = () => { idx = (idx+1)%s.images.length; draw(); };
+      box.querySelectorAll(".dot").forEach(d => d.onclick = () => { idx = +d.dataset.i; draw(); });
+    }
+    box.querySelectorAll(".related-card").forEach(rc => {
+      rc.onclick = () => openDetail(rc.dataset.id);
+    });
+    box.querySelector("#likeBtn").onclick = async () => {
+      const liked = likedIds.has(s.id);
+      const btn = box.querySelector("#likeBtn");
+      const countEl = box.querySelector("#likeCount");
+      try {
+        await setDoc(doc(db, "sarees", s.id), { likes: increment(liked ? -1 : 1) }, { merge: true });
+        if (liked) likedIds.delete(s.id); else likedIds.add(s.id);
+        btn.classList.toggle("liked", !liked);
+        const newCount = (Number(s.likes || 0)) + (liked ? -1 : 1);
+        s.likes = newCount;
+        countEl.textContent = `${newCount} जणांना आवडली`;
+      } catch (err) {
+        console.error(err);
+        toast("लाईक करता आले नाही");
+      }
+    };
+    box.querySelector("#commentForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const cname = document.getElementById("cmtName").value.trim() || "ग्राहक";
+      const ctext = document.getElementById("cmtText").value.trim();
+      if (!ctext){ toast("कमेंट लिहा"); return; }
+      try {
+        await addDoc(commentsCol(s.id), { name: cname, text: ctext, createdAt: Date.now() });
+        document.getElementById("cmtText").value = "";
+      } catch (err) {
+        console.error(err);
+        toast("कमेंट पाठवता आली नाही");
+      }
+    };
+    box.querySelector("#shareBtn").onclick = async () => {
+      const link = `${location.origin}${location.pathname}?saree=${s.id}`;
+      const text = `🌸 ${s.name}\n💰 किंमत: ₹${s.price}\n📝 ${s.description}` +
+        (contact && contact.phone ? `\n\nसंपर्क: ${contact.name || "अॅडमिन"} - ${contact.phone}` : "") +
+        `\n\n🔗 ${link}`;
+
+      // पहिला प्रयत्न: साडीचा खरा फोटो शेअर शीटमध्ये अटॅच करून पाठवणे (मोबाईलवर सर्वोत्तम)
+      try {
+        const imgUrl = s.images && s.images[0];
+        if (imgUrl && navigator.canShare) {
+          const resp = await fetch(imgUrl, { mode: "cors" });
+          const blob = await resp.blob();
+          const file = new File([blob], `${(s.name || "saree").replace(/\s+/g,"_")}.jpg`, { type: blob.type || "image/jpeg" });
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({ title: s.name, text, files: [file] });
+            return;
+          }
+        }
+      } catch (err) { /* फोटो अटॅच नाही झाला तर खालच्या पद्धतीने शेअर होईल */ }
+
+      // दुसरा प्रयत्न: फक्त टेक्स्ट + लिंक शेअर करणे
+      if (navigator.share){
+        try { await navigator.share({ title: s.name, text, url: link }); return; } catch(e){}
+      }
+      // शेवटचा पर्याय: क्लिपबोर्डवर कॉपी करणे
+      try { await navigator.clipboard.writeText(text); toast("साडीची माहिती कॉपी झाली — आता कुठेही पेस्ट करा!"); }
+      catch { toast("शेअर करता आले नाही"); }
+    };
+  }
+  draw();
+  overlay.classList.remove("hidden");
+  if (commentsUnsub) { commentsUnsub(); commentsUnsub = null; }
+  commentsUnsub = onSnapshot(query(commentsCol(s.id), orderBy("createdAt", "asc")), (snap) => {
+    const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderComments(s.id, list);
+  }, (err) => console.error(err));
+}
+function renderComments(sareeId, list){
+  const box = document.getElementById("commentsList");
+  if (!box) return;
+  if (list.length === 0){ box.innerHTML = `<p class="no-comments">अजून एकही कमेंट नाही — पहिली कमेंट तुम्ही करा!</p>`; return; }
+  box.innerHTML = list.map(c => `
+    <div class="comment-item" data-id="${c.id}">
+      ${auth.currentUser ? `<button class="cdel" data-id="${c.id}">✕</button>` : ""}
+      <div class="cn">${c.name}</div>
+      <div class="ct">${c.text}</div>
+    </div>`).join("");
+  box.querySelectorAll(".cdel").forEach(btn => {
+    btn.onclick = async () => {
+      try { await deleteDoc(doc(db, "sarees", sareeId, "comments", btn.dataset.id)); }
+      catch { toast("कमेंट काढता आली नाही"); }
+    };
+  });
+}
+function closeModal(){
+  document.getElementById("modalOverlay").classList.add("hidden");
+  if (commentsUnsub) { commentsUnsub(); commentsUnsub = null; }
+}
+document.getElementById("modalOverlay").addEventListener("click", (e) => {
+  if (e.target.id === "modalOverlay") closeModal();
+});
+
+/* ------------- lightbox (full-screen image zoom) ------------- */
+function openLightbox(src){
+  const lbImg = document.getElementById("lightboxImg");
+  lbImg.src = src;
+  lbImg.classList.remove("zoomed");
+  document.getElementById("lightboxScroll").scrollTo(0,0);
+  document.getElementById("lightboxOverlay").classList.remove("hidden");
+}
+function closeLightbox(){
+  document.getElementById("lightboxOverlay").classList.add("hidden");
+}
+document.getElementById("lightboxImg").onclick = () => {
+  document.getElementById("lightboxImg").classList.toggle("zoomed");
+};
+document.getElementById("lightboxClose").onclick = closeLightbox;
+document.getElementById("lightboxOverlay").addEventListener("click", (e) => {
+  if (e.target.id === "lightboxOverlay") closeLightbox();
+});
+
+/* ------------- admin: contact form ------------- */
+function fillContactForm(){
+  document.getElementById("cName").value = contact?.name || "";
+  document.getElementById("cPhone").value = contact?.phone || "";
+  document.getElementById("cWhats").value = contact?.whatsapp || "";
+}
+document.getElementById("contactForm").onsubmit = async (e) => {
+  e.preventDefault();
+  const newContact = {
+    name: document.getElementById("cName").value.trim(),
+    phone: document.getElementById("cPhone").value.trim(),
+    whatsapp: document.getElementById("cWhats").value.trim()
+  };
+  try {
+    await setDoc(contactRef, newContact, { merge: true });
+    toast("संपर्क माहिती जतन झाली");
+  } catch (err) {
+    console.error(err);
+    toast("जतन करता आले नाही — इंटरनेट तपासा");
+  }
+};
+
+/* ------------- admin: categories / sections ------------- */
+function renderCatManageRow(){
+  const row = document.getElementById("catManageRow");
+  if (!row) return;
+  if (categories.length === 0){ row.innerHTML = `<p class="hint">अजून एकही सेक्शन जोडलेली नाही.</p>`; return; }
+  row.innerHTML = categories.map(c =>
+    `<span class="cat-tag">${c}<button data-c="${c}">✕</button></span>`).join("");
+  row.querySelectorAll("button").forEach(b => {
+    b.onclick = async () => {
+      try { await setDoc(categoriesRef, { list: arrayRemove(b.dataset.c) }, { merge: true }); }
+      catch { toast("सेक्शन काढता आले नाही"); }
+    };
+  });
+}
+function renderSareeCatCheckboxes(){
+  const row = document.getElementById("sCatRow");
+  if (!row) return;
+  if (categories.length === 0){ row.innerHTML = `<p class="hint">आधी वरती सेक्शन तयार करा.</p>`; return; }
+  row.innerHTML = categories.map((c,i) =>
+    `<label><input type="checkbox" value="${c}" id="scat_${i}"> ${c}</label>`).join("");
+}
+document.getElementById("catForm").onsubmit = async (e) => {
+  e.preventDefault();
+  const input = document.getElementById("catInput");
+  const name = input.value.trim();
+  if (!name){ toast("सेक्शनचं नाव टाका"); return; }
+  try {
+    await setDoc(categoriesRef, { list: arrayUnion(name) }, { merge: true });
+    input.value = "";
+    toast("सेक्शन जोडली");
+  } catch (err) {
+    console.error(err);
+    toast("जोडता आले नाही — इंटरनेट तपासा");
+  }
+};
+
+/* ------------- admin: promo video popup ------------- */
+function fillVideoForm(){
+  document.getElementById("vUrl").value = promoVideo?.url || "";
+  document.getElementById("vEnabled").checked = !!promoVideo?.enabled;
+}
+document.getElementById("videoForm").onsubmit = async (e) => {
+  e.preventDefault();
+  const url = document.getElementById("vUrl").value.trim();
+  const enabled = document.getElementById("vEnabled").checked;
+  try {
+    await setDoc(videoRef, { url, enabled }, { merge: true });
+    toast("व्हिडिओ सेटिंग जतन झाली");
+  } catch (err) {
+    console.error(err);
+    toast("जतन करता आले नाही — इंटरनेट तपासा");
+  }
+};
+
+/* ------------- customer: floating promo video widget ------------- */
+function youTubeEmbedUrl(url){
+  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{6,})/);
+  return m ? `https://www.youtube.com/embed/${m[1]}?autoplay=1&mute=1&loop=1&playlist=${m[1]}&controls=1&playsinline=1` : null;
+}
+function renderPromoVideo(){
+  const box = document.getElementById("promoVideoBox");
+  if (!promoVideo || !promoVideo.enabled || !promoVideo.url || videoDismissed || currentView !== "customer"){
+    box.classList.add("hidden");
+    box.innerHTML = "";
+    return;
+  }
+  const yt = youTubeEmbedUrl(promoVideo.url);
+  const media = yt
+    ? `<iframe src="${yt}" allow="autoplay; encrypted-media" allowfullscreen></iframe>`
+    : `<video src="${promoVideo.url}" autoplay muted loop playsinline controls></video>`;
+  box.innerHTML = `<button class="pv-close" id="pvClose">✕</button>${media}`;
+  box.classList.remove("hidden");
+  document.getElementById("pvClose").onclick = () => { videoDismissed = true; renderPromoVideo(); };
+}
+
+/* ------------- admin: add saree ------------- */
+const filesInput = document.getElementById("sFiles");
+filesInput.onchange = async (e) => {
+  const files = Array.from(e.target.files || []);
+  if (files.length === 0) return;
+  if (pendingImages.length + files.length > MAX_IMAGES){
+    toast(`जास्तीत जास्त ${MAX_IMAGES} फोटो अपलोड करता येतील`);
+    filesInput.value = "";
+    return;
+  }
+  const statusEl = document.getElementById("imageUploadStatus");
+  statusEl.innerHTML = `<p class="video-uploading">फोटो अपलोड होत आहेत...</p>`;
+  try {
+    const resizedBlobs = await Promise.all(files.map(resizeImageFile));
+    const urls = await Promise.all(resizedBlobs.map(blob => uploadToCloudinary(blob, "image")));
+    pendingImages = pendingImages.concat(urls).slice(0, MAX_IMAGES);
+    renderThumbs();
+  } catch (err) {
+    console.error(err);
+    toast("फोटो अपलोड करता आले नाहीत — इंटरनेट/Cloudinary तपासा");
+  } finally {
+    statusEl.innerHTML = "";
+    filesInput.value = "";
+  }
+};
+function renderThumbs(){
+  document.getElementById("thumbRow").innerHTML = pendingImages.map((img,i) =>
+    `<div class="thumb"><img src="${img}"><button data-i="${i}">✕</button></div>`).join("");
+  document.getElementById("thumbCount").textContent = `${pendingImages.length} / ${MAX_IMAGES} फोटो निवडले`;
+  document.querySelectorAll("#thumbRow button").forEach(b => {
+    b.onclick = () => { pendingImages.splice(+b.dataset.i,1); renderThumbs(); };
+  });
+}
+
+/* ------------- admin: Gemini AI मॉडेल फोटो प्रॉम्प्ट तयार करणे ------------- */
+function buildGeminiPrompt(){
+  const name = document.getElementById("sName").value.trim() || "साडी";
+  const material = document.getElementById("sMaterial").value.trim();
+  const desc = document.getElementById("sDesc").value.trim();
+  const details = [material, desc].filter(Boolean).join(", ");
+  return `Use the attached saree photo as the exact reference — keep its color, fabric texture, border (kath) design and pallu (padar) pattern completely unchanged. Generate 3 separate, individual, full-frame photorealistic images of a Maharashtrian woman elegantly wearing this exact saree${details ? ` (${details})` : ""}, draped in the traditional Maharashtrian style.
+
+IMPORTANT: Output each of the 3 images as its own separate, full-size photo. Do NOT combine them into a single collage, grid, split-frame, or multi-panel image — each angle must be one complete standalone picture on its own.
+
+Requirements for all 3 images:
+- The saree's color, fabric, border and pallu design must look IDENTICAL to the reference photo — do not alter the pattern or colors.
+- Give the model an authentic Maharashtrian look with styling (jewellery, hairstyle, accessories) that naturally suits and complements this particular saree — whatever fits its color and occasion best.
+- Show the pallu (padar) clearly draped over the left shoulder in at least one image.
+- Show the kath (border) design clearly in a close-up in at least one image.
+- Soft natural lighting, elegant traditional Indian background, warm and graceful expression.
+
+Generate exactly these 3 angles, each as its own separate full image (not combined):
+1. Front-facing full-length shot — entire saree and pallu clearly visible, standing pose.
+2. Side / three-quarter angle shot — showing the drape, pleats and pallu flow.
+3. Close-up shot focused on the pallu and border (kath) design detail.
+
+Photorealistic, high resolution, no text or watermark, no collage/grid layout — 3 separate individual images only.`;
+}
+document.getElementById("genGeminiPromptBtn").onclick = () => {
+  const promptBox = document.getElementById("geminiPromptBox");
+  promptBox.value = buildGeminiPrompt();
+  promptBox.classList.remove("hidden");
+  document.getElementById("geminiActions").classList.remove("hidden");
+};
+document.getElementById("copyGeminiPromptBtn").onclick = async () => {
+  const promptBox = document.getElementById("geminiPromptBox");
+  try {
+    await navigator.clipboard.writeText(promptBox.value);
+    toast("प्रॉम्प्ट कॉपी झाला — आता Gemini मध्ये पेस्ट करा!");
+  } catch {
+    promptBox.select();
+    toast("प्रॉम्प्ट सिलेक्ट झाला — आता Ctrl+C करून कॉपी करा");
+  }
+};
+function resetGeminiPrompt(){
+  const promptBox = document.getElementById("geminiPromptBox");
+  promptBox.value = "";
+  promptBox.classList.add("hidden");
+  document.getElementById("geminiActions").classList.add("hidden");
+}
+
+/* ------------- admin: per-saree video upload ------------- */
+function renderVideoPreview(){
+  const box = document.getElementById("videoPreviewBox");
+  if (!pendingVideoUrl){ box.innerHTML = ""; return; }
+  box.innerHTML = `<div class="video-preview"><video src="${pendingVideoUrl}" muted playsinline></video><button type="button" id="removeVideoBtn">✕</button></div>`;
+  document.getElementById("removeVideoBtn").onclick = () => { pendingVideoUrl = ""; renderVideoPreview(); };
+}
+const videoFileInput = document.getElementById("sVideoFile");
+videoFileInput.onchange = async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > MAX_VIDEO_MB * 1024 * 1024){
+    toast(`व्हिडिओ ${MAX_VIDEO_MB}MB पेक्षा लहान असावा`);
+    videoFileInput.value = "";
+    return;
+  }
+  const statusEl = document.getElementById("videoUploadStatus");
+  statusEl.innerHTML = `<p class="video-uploading">व्हिडिओ अपलोड होत आहे...</p>`;
+  try {
+    pendingVideoUrl = await uploadToCloudinary(file, "video");
+    statusEl.innerHTML = "";
+    renderVideoPreview();
+    toast("व्हिडिओ अपलोड झाला!");
+  } catch (err) {
+    console.error(err);
+    statusEl.innerHTML = "";
+    toast("व्हिडिओ अपलोड करता आला नाही — Cloudinary cloud name/preset तपासा");
+  } finally {
+    videoFileInput.value = "";
+  }
+};
+
+/* ------------- admin: edit saree ------------- */
+function startEditSaree(s){
+  editingId = s.id;
+  document.getElementById("sName").value = s.name || "";
+  document.getElementById("sPrice").value = s.price || "";
+  document.getElementById("sOldPrice").value = s.oldPrice || "";
+  document.getElementById("sDesc").value = s.description || "";
+  document.getElementById("sMaterial").value = s.material || "";
+  document.getElementById("sOutOfStock").checked = !!s.outOfStock;
+  pendingImages = (s.images || []).slice();
+  renderThumbs();
+  pendingVideoUrl = s.videoUrl || "";
+  renderVideoPreview();
+  renderSareeCatCheckboxes();
+  (s.categories || []).forEach(c => {
+    document.querySelectorAll(`#sCatRow input`).forEach(inp => { if (inp.value === c) inp.checked = true; });
+  });
+  document.getElementById("sareeFormTitle").textContent = "साडी एडिट करा";
+  document.getElementById("sareeSubmitBtn").textContent = "साडी अपडेट करा";
+  document.getElementById("editBanner").classList.remove("hidden");
+  document.getElementById("sareeForm").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+function exitEditMode(){
+  editingId = null;
+  document.getElementById("sareeForm").reset();
+  document.getElementById("sMaterial").value = "";
+  pendingImages = [];
+  pendingVideoUrl = "";
+  renderThumbs();
+  renderVideoPreview();
+  resetGeminiPrompt();
+  document.getElementById("sareeFormTitle").textContent = "नवीन साडी जोडा";
+  document.getElementById("sareeSubmitBtn").textContent = "साडी जोडा";
+  document.getElementById("editBanner").classList.add("hidden");
+}
+document.getElementById("cancelEditBtn").onclick = exitEditMode;
+document.getElementById("sareeForm").onsubmit = async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("sName").value.trim();
+  const price = document.getElementById("sPrice").value.trim();
+  const oldPriceRaw = document.getElementById("sOldPrice").value.trim();
+  const oldPrice = oldPriceRaw && Number(oldPriceRaw) > Number(price) ? oldPriceRaw : "";
+  const description = document.getElementById("sDesc").value.trim();
+  const material = document.getElementById("sMaterial").value.trim();
+  const outOfStock = document.getElementById("sOutOfStock").checked;
+  if (!name || !price || !description){ toast("कृपया नाव, किंमत आणि वर्णन भरा"); return; }
+  if (oldPriceRaw && !oldPrice){ toast("जुनी किंमत नव्या किमतीपेक्षा जास्त असावी"); return; }
+  if (pendingImages.length === 0){ toast("किमान एक फोटो अपलोड करा"); return; }
+  const selectedCats = Array.from(document.querySelectorAll("#sCatRow input:checked")).map(i => i.value);
+  const submitBtn = document.getElementById("sareeSubmitBtn");
+  const wasEditing = !!editingId;
+  submitBtn.disabled = true; submitBtn.textContent = wasEditing ? "अपडेट करत आहे..." : "जतन करत आहे...";
+  try {
+    const payload = {
+      name, price, oldPrice, description, material, outOfStock,
+      categories: selectedCats,
+      images: pendingImages.slice(),
+      videoUrl: pendingVideoUrl || ""
+    };
+    if (wasEditing){
+      await setDoc(doc(db, "sarees", editingId), payload, { merge: true });
+      toast("साडी अपडेट झाली!");
+    } else {
+      await addDoc(sareesCol, { ...payload, likes: 0, createdAt: Date.now() });
+      toast("साडी यशस्वीरित्या जोडली!");
+    }
+    exitEditMode();
+  } catch (err) {
+    console.error(err);
+    if (String(err).includes("longer than") || String(err).includes("size")) {
+      toast("फोटो जास्त मोठे आहेत — कमी फोटो निवडा किंवा पुन्हा प्रयत्न करा");
+    } else {
+      toast("साडी सेव्ह करता आली नाही — इंटरनेट/Firestore rules तपासा");
+    }
+  } finally {
+    submitBtn.disabled = false;
+    if (!wasEditing) submitBtn.textContent = "साडी जोडा";
+  }
+};
+
+/* ------------- admin: list + delete ------------- */
+function renderAdminList(){
+  document.getElementById("listTitle").textContent = `तुमच्या साड्या (${sarees.length})`;
+  const list = document.getElementById("adminList");
+  if (sarees.length === 0){ list.innerHTML = `<p class="hint">अजून एकही साडी जोडलेली नाही.</p>`; return; }
+  list.innerHTML = sarees.map(s => `
+    <div class="admin-row" data-id="${s.id}">
+      <img src="${s.images[0]}" loading="lazy">
+      <div class="admin-row-info"><strong>${s.name}</strong><span>₹${s.price}${s.outOfStock ? ` · <span style="color:var(--danger)">विकली गेली</span>` : ""}</span></div>
+      <button class="edit-btn" data-act="edit">एडिट</button>
+      <button class="btn-danger" data-act="delete">काढा</button>
+    </div>`).join("");
+  list.querySelectorAll(".admin-row").forEach(row => {
+    const id = row.dataset.id;
+    row.querySelector('[data-act="delete"]').onclick = async () => {
+      try {
+        await deleteDoc(doc(db, "sarees", id));
+        toast("साडी काढून टाकली");
+      } catch (err) {
+        console.error(err);
+        toast("काढता आले नाही — इंटरनेट तपासा");
+      }
+    };
+    row.querySelector('[data-act="edit"]').onclick = () => {
+      const s = sarees.find(x => x.id === id);
+      if (s) startEditSaree(s);
+    };
+  });
+}
+
+function renderAdmin(){
+  fillContactForm();
+  fillVideoForm();
+  renderCatManageRow();
+  renderSareeCatCheckboxes();
+  if (!editingId){
+    pendingImages = [];
+    pendingVideoUrl = "";
+    renderThumbs();
+    renderVideoPreview();
+    resetGeminiPrompt();
+  }
+  renderAdminList();
+}
+
+/* ------------- Firestore live listeners ------------- */
+let autoOpenedFromLink = false;
+onSnapshot(query(sareesCol, orderBy("createdAt", "desc")), (snap) => {
+  sarees = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  if (currentView === "customer") renderCustomer();
+  if (currentView === "admin") renderAdminList();
+  // शेअर केलेल्या लिंकमध्ये ?saree=ID असेल तर ती नेमकी साडी आपोआप उघडून दाखवा
+  if (!autoOpenedFromLink && sarees.length > 0){
+    const sid = new URLSearchParams(location.search).get("saree");
+    if (sid && sarees.find(s => s.id === sid)){
+      autoOpenedFromLink = true;
+      openDetail(sid);
+    }
+  }
+}, (err) => {
+  console.error(err);
+  toast("डेटा लोड करता आला नाही — इंटरनेट/Firestore rules तपासा");
+});
+
+onSnapshot(contactRef, (snap) => {
+  contact = snap.exists() ? snap.data() : null;
+  renderContactStrip();
+  if (currentView === "admin") fillContactForm();
+}, (err) => console.error(err));
+
+onSnapshot(categoriesRef, (snap) => {
+  categories = snap.exists() ? (snap.data().list || []) : [];
+  if (currentView === "customer") renderCatChips();
+  if (currentView === "admin") { renderCatManageRow(); renderSareeCatCheckboxes(); }
+}, (err) => console.error(err));
+
+onSnapshot(videoRef, (snap) => {
+  promoVideo = snap.exists() ? snap.data() : null;
+  if (currentView === "admin") fillVideoForm();
+  renderPromoVideo();
+}, (err) => console.error(err));
+
+/* ------------- PWA: install prompt + service worker ------------- */
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
+let deferredInstallPrompt = null;
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  document.getElementById("installBtn").classList.remove("hidden");
+});
+document.getElementById("installBtn").onclick = async () => {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  document.getElementById("installBtn").classList.add("hidden");
+};
+window.addEventListener("appinstalled", () => {
+  document.getElementById("installBtn").classList.add("hidden");
+});
+
+/* ------------- init ------------- */
+showView("customer");
+</script>
+</body>
+</html>
